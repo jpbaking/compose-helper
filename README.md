@@ -38,10 +38,11 @@ The script can also be called through a symlink — it always resolves to its re
 
 Script behaviour is controlled by two environment variables. Set them in `compose-helper.env` (alongside the script), or export them in your shell before calling the script. The env file takes precedence over the calling shell.
 
-| Variable           | Default | Description |
-|--------------------|---------|-------------|
-| `DCH_STOP_TIMEOUT` | `30`    | Seconds to wait for graceful shutdown before killing containers |
-| `DCH_LOGS_TAIL`    | `10`    | Lines of existing log output shown before following live output |
+| Variable            | Default        | Description |
+|---------------------|----------------|-------------|
+| `DCH_PROJECT_NAME`  | *(dir name)*   | Override the docker compose project name |
+| `DCH_STOP_TIMEOUT`  | `30`           | Seconds to wait for graceful shutdown before killing containers |
+| `DCH_LOGS_TAIL`     | `10`           | Lines of existing log output shown before following live output |
 
 See `compose-helper.env.example` for a ready-to-copy template.
 
@@ -58,7 +59,13 @@ This env file is for **container variable substitution** (values referenced insi
 
 ## Project naming
 
-The project name is always set to the directory name (`-p <dirname>`). This prevents docker compose from deriving the name from the caller's working directory, which can silently create duplicate projects when the script is called from different locations or via symlink.
+By default the project name is the directory name (`-p <dirname>`). This prevents docker compose from deriving the name from the caller's working directory, which can silently create duplicate projects when the script is called from different locations or via symlink.
+
+Set `DCH_PROJECT_NAME` in `compose-helper.env` to override it:
+
+```
+DCH_PROJECT_NAME=my-custom-name
+```
 
 ## The `--profile build` convention (optional)
 

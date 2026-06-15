@@ -32,20 +32,8 @@ else
     exit 1
 fi
 
-# Pinning the project name to the directory prevents docker compose from
-# deriving it from the current working directory, which can vary by caller.
-PROJECT_NAME="$(basename "$SCRIPT_DIR")"
-DC_OPTS=(-p "$PROJECT_NAME" -f "$COMPOSE_FILE")
-
-# .env is passed to docker compose for container variable substitution.
-# .config/.env is the fallback for projects that keep config out of the root.
-if [[ -f ".env" ]]; then
-    DC_OPTS+=(--env-file ".env")
-elif [[ -f ".config/.env" ]]; then
-    DC_OPTS+=(--env-file ".config/.env")
-fi
-
 # (script_name).env configures DCH itself (timeouts, tail length, etc.).
+# Sourced early so DCH_PROJECT_NAME can override the directory-derived project name.
 # set -a exports every variable so child processes (docker compose) see them too.
 # Note: if DCH_* vars are already in the calling shell's environment, sourcing
 # this file will overwrite them — the file takes precedence over the caller.
@@ -54,6 +42,20 @@ if [[ -f "${SCRIPT_NAME}.env" ]]; then
     # shellcheck source=/dev/null
     source "${SCRIPT_NAME}.env"
     set +a
+fi
+
+# DCH_PROJECT_NAME (from compose-helper.env) overrides the directory-derived name.
+# Pinning the project name prevents docker compose from deriving it from the
+# current working directory, which can vary by caller.
+PROJECT_NAME="${DCH_PROJECT_NAME:-$(basename "$SCRIPT_DIR")}"
+DC_OPTS=(-p "$PROJECT_NAME" -f "$COMPOSE_FILE")
+
+# .env is passed to docker compose for container variable substitution.
+# .config/.env is the fallback for projects that keep config out of the root.
+if [[ -f ".env" ]]; then
+    DC_OPTS+=(--env-file ".env")
+elif [[ -f ".config/.env" ]]; then
+    DC_OPTS+=(--env-file ".config/.env")
 fi
 
 DCH_STOP_TIMEOUT="${DCH_STOP_TIMEOUT:-30}"
@@ -79,6 +81,7 @@ Commands:
   <other>  Pass arguments directly to docker compose
 
 Environment (set in ${SCRIPT_NAME}.env):
+  DCH_PROJECT_NAME  Override project name (default: directory name)
   DCH_STOP_TIMEOUT  Shutdown timeout in seconds (default: 30)
   DCH_LOGS_TAIL     Log tail line count (default: 10)
 

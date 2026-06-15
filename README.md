@@ -7,8 +7,9 @@ Scripts that wrap `docker compose` with consistent project naming, env file hand
 | Linux / macOS | `compose-helper` (bash) |
 | Windows CMD | `compose-helper.cmd` |
 | Windows PowerShell | `compose-helper.ps1` |
+| Any (Python 3) | `compose-helper.py` |
 
-All three are feature-equivalent.
+All four are feature-equivalent.
 
 > **⚠️ Intended for development use only ⚠️**
 > ---
@@ -67,6 +68,26 @@ my-project/
 Run it as `.\compose-helper.ps1 <command>`.
 
 > **Note:** PowerShell does not automatically resolve symlinks via `$PSScriptRoot`. Place the script directly in the project directory.
+
+### Any platform (Python 3)
+
+Requires Python 3.6+ on the PATH (`python3` on Linux/macOS, `python` or `py` on Windows).
+
+1. Copy `compose-helper.py` into your project directory alongside `docker-compose.yaml`.
+2. Optionally copy `compose-helper.env.example` to `compose-helper.env` and adjust values.
+3. On Linux/macOS, make it executable: `chmod +x compose-helper.py`
+
+```
+my-project/
+├── compose-helper.py       # this script
+├── compose-helper.env      # optional — configures the script itself
+├── docker-compose.yaml
+└── .env                    # optional — passed to docker compose as --env-file
+```
+
+Run it as `./compose-helper.py <command>` (Linux/macOS) or `python compose-helper.py <command>` (Windows).
+
+The Python version resolves symlinks via `os.path.realpath`, so it can safely be called through a symlink on all platforms.
 
 ## Commands
 

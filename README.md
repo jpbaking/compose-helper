@@ -1,12 +1,22 @@
 # compose-helper
 
-A single bash script that wraps `docker compose` with consistent project naming, env file discovery, and shorthand commands for common workflows. Copy it into any docker-compose project and it works.
+Scripts that wrap `docker compose` with consistent project naming, env file handling, and shorthand commands for common workflows. Copy the right one for your platform into any docker-compose project and it works.
+
+| Platform | File |
+|----------|------|
+| Linux / macOS | `compose-helper` (bash) |
+| Windows CMD | `compose-helper.cmd` |
+| Windows PowerShell | `compose-helper.ps1` |
+
+All three are feature-equivalent.
 
 > **⚠️ Intended for development use only ⚠️**
 > ---
 > Do not use in production or CI/CD pipelines without careful review — `down` removes volumes, env files are sourced and exported into the process, and there is no access control or dry-run mode.
 
 ## Setup
+
+### Linux / macOS
 
 1. Copy `compose-helper` into your project directory alongside `docker-compose.yaml`.
 2. Make it executable: `chmod +x compose-helper`
@@ -21,6 +31,42 @@ my-project/
 ```
 
 The script can also be called through a symlink — it always resolves to its real location, so the working directory is always the project folder regardless of where you call it from.
+
+### Windows CMD
+
+1. Copy `compose-helper.cmd` into your project directory alongside `docker-compose.yaml`.
+2. Optionally copy `compose-helper.env.example` to `compose-helper.env` and adjust values.
+
+```
+my-project/
+├── compose-helper.cmd      # this script
+├── compose-helper.env      # optional — configures the script itself
+├── docker-compose.yaml
+└── .env                    # optional — passed to docker compose as --env-file
+```
+
+> **Note:** CMD does not resolve symlinks. Place the script directly in the project directory.
+
+### Windows PowerShell
+
+1. Copy `compose-helper.ps1` into your project directory alongside `docker-compose.yaml`.
+2. Optionally copy `compose-helper.env.example` to `compose-helper.env` and adjust values.
+3. If blocked by execution policy, allow local scripts once:
+   ```powershell
+   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+   ```
+
+```
+my-project/
+├── compose-helper.ps1      # this script
+├── compose-helper.env      # optional — configures the script itself
+├── docker-compose.yaml
+└── .env                    # optional — passed to docker compose as --env-file
+```
+
+Run it as `.\compose-helper.ps1 <command>`.
+
+> **Note:** PowerShell does not automatically resolve symlinks via `$PSScriptRoot`. Place the script directly in the project directory.
 
 ## Commands
 
@@ -40,7 +86,7 @@ The script can also be called through a symlink — it always resolves to its re
 
 ## Configuration
 
-Script behaviour is controlled by two environment variables. Set them in `compose-helper.env` (alongside the script), or export them in your shell before calling the script. The env file takes precedence over the calling shell.
+Script behaviour is controlled by environment variables. Set them in `compose-helper.env` (alongside the script), or export them in your shell before calling the script. The env file takes precedence over the calling shell.
 
 | Variable            | Default        | Description |
 |---------------------|----------------|-------------|
@@ -93,7 +139,7 @@ If you don't use this pattern, the `--profile build` flag is harmless — it sim
 
 ## docker compose v1 vs v2
 
-The script prefers the v2 plugin (`docker compose`) and falls back to the standalone v1 binary (`docker-compose`) if the plugin is not available.
+All scripts prefer the v2 plugin (`docker compose`) and fall back to the standalone v1 binary (`docker-compose`) if the plugin is not available.
 
 ## License
 

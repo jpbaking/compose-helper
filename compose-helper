@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# Author: jpbaking (https://github.com/jpbaking)
+#
 # Thin wrapper around docker compose that enforces consistent project naming,
 # env file handling, and provides shorthand commands for common workflows.
 # Must live alongside docker-compose.yaml. Safe to call via symlink.
+#
+# WARNING: Intended for local development use only. Do not use in production
+# or CI/CD pipelines without careful review — commands like 'down' remove
+# volumes, env files are sourced and exported into the process, and there is
+# no access control or dry-run mode.
 
 # Resolve through symlinks so the working directory is always the script's
 # real location, not where the symlink lives or where the caller is.

@@ -2,6 +2,10 @@
 
 A single bash script that wraps `docker compose` with consistent project naming, env file discovery, and shorthand commands for common workflows. Copy it into any docker-compose project and it works.
 
+> **⚠️ Intended for development use only ⚠️**
+> ---
+> Do not use in production or CI/CD pipelines without careful review — `down` removes volumes, env files are sourced and exported into the process, and there is no access control or dry-run mode.
+
 ## Setup
 
 1. Copy `compose-helper` into your project directory alongside `docker-compose.yaml`.

@@ -109,17 +109,17 @@ if command in ("", "--help", "-h"):
     usage()
 elif command == "up":
     run_dc("pull")
-    run_dc("build", "--profile", "build", "--pull")
+    run_dc("--profile", "build", "build", "--pull")
     run_dc("up", "-d")
     run_dc("logs", "-f", f"--tail={LOGS_TAIL}")
 elif command == "start":
     run_dc("up", "-d")
 elif command == "build":
     run_dc("pull")
-    run_dc("build", "--profile", "build", "--pull")
+    run_dc("--profile", "build", "build", "--pull")
 elif command == "rebuild":
     run_dc("pull")
-    run_dc("build", "--profile", "build", "--pull")
+    run_dc("--profile", "build", "build", "--pull")
     run_dc("up", "-d")
 elif command == "restart":
     run_dc("down", "-t", STOP_TIMEOUT, "--remove-orphans")

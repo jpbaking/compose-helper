@@ -109,7 +109,7 @@ switch ($Command.ToLower()) {
     }
     "up" {
         Invoke-DC pull
-        Invoke-DC build --profile build --pull
+        Invoke-DC --profile build build --pull
         Invoke-DC up -d
         Invoke-DC logs -f "--tail=$LogsTail"
     }
@@ -118,11 +118,11 @@ switch ($Command.ToLower()) {
     }
     "build" {
         Invoke-DC pull
-        Invoke-DC build --profile build --pull
+        Invoke-DC --profile build build --pull
     }
     "rebuild" {
         Invoke-DC pull
-        Invoke-DC build --profile build --pull
+        Invoke-DC --profile build build --pull
         Invoke-DC up -d
     }
     "restart" {

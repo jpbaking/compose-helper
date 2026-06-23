@@ -121,7 +121,7 @@ goto :cmd_passthrough
 
 :cmd_up
 call :run_dc pull
-call :run_dc build --profile build --pull
+call :run_dc --profile build build --pull
 call :run_dc up -d
 call :run_dc logs -f --tail=%DCH_LOGS_TAIL%
 goto :eof
@@ -132,12 +132,12 @@ goto :eof
 
 :cmd_build
 call :run_dc pull
-call :run_dc build --profile build --pull
+call :run_dc --profile build build --pull
 goto :eof
 
 :cmd_rebuild
 call :run_dc pull
-call :run_dc build --profile build --pull
+call :run_dc --profile build build --pull
 call :run_dc up -d
 goto :eof
 

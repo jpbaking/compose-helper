@@ -105,7 +105,7 @@ case "${1:-}" in
         # --profile build targets services with a build: block, which by convention
         # are always placed under the "build" profile in docker-compose.yaml.
         # --pull ensures base images are refreshed, not served from the layer cache.
-        run_dc build --profile build --pull
+        run_dc --profile build build --pull
         run_dc up -d
         run_dc logs -f --tail="$DCH_LOGS_TAIL"
         ;;
@@ -114,11 +114,11 @@ case "${1:-}" in
         ;;
     build)
         run_dc pull
-        run_dc build --profile build --pull
+        run_dc --profile build build --pull
         ;;
     rebuild)
         run_dc pull
-        run_dc build --profile build --pull
+        run_dc --profile build build --pull
         run_dc up -d
         ;;
     restart)

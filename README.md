@@ -102,7 +102,7 @@ The Python version resolves symlinks via `os.path.realpath`, so it can safely be
 | `stop`    | Stop with timeout, remove orphan containers |
 | `down`    | Stop with timeout, remove orphans and **named volumes** |
 | `logs`    | Follow logs from the last N lines |
-| *(other)* | Passed directly to `docker compose` with project name and env file applied |
+| *(other)* | Pass-through to `docker compose`; any call with 2+ arguments always bypasses named commands |
 
 > **`down` removes volumes.** Use it when you want a clean slate. Use `stop` when you want to preserve data.
 

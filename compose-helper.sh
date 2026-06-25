@@ -16,6 +16,7 @@
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 SCRIPT_NAME="$(basename "$SCRIPT_PATH")"
+SCRIPT_BASE="${SCRIPT_NAME%.*}"
 
 cd "$SCRIPT_DIR"
 
@@ -44,10 +45,10 @@ fi
 # set -a exports every variable so child processes (docker compose) see them too.
 # Note: if DCH_* vars are already in the calling shell's environment, sourcing
 # this file will overwrite them — the file takes precedence over the caller.
-if [[ -f "${SCRIPT_NAME}.env" ]]; then
+if [[ -f "${SCRIPT_BASE}.env" ]]; then
     set -a
     # shellcheck source=/dev/null
-    source "${SCRIPT_NAME}.env"
+    source "${SCRIPT_BASE}.env"
     set +a
 fi
 
@@ -88,7 +89,7 @@ Commands:
   logs     Follow logs from last ${DCH_LOGS_TAIL} lines
   <other>  Pass arguments directly to docker compose
 
-Environment (set in ${SCRIPT_NAME}.env):
+Environment (set in ${SCRIPT_BASE}.env):
   DCH_PROJECT_NAME  Override project name (default: directory name)
   DCH_STOP_TIMEOUT  Shutdown timeout in seconds (default: 30)
   DCH_LOGS_TAIL     Log tail line count (default: 10)

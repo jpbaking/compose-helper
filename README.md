@@ -4,7 +4,7 @@ Scripts that wrap `docker compose` with consistent project naming, env file hand
 
 | Platform | File |
 |----------|------|
-| Linux / macOS | `compose-helper` (bash) |
+| Linux / macOS | `compose-helper.sh` (bash) |
 | Windows CMD | `compose-helper.cmd` |
 | Windows PowerShell | `compose-helper.ps1` |
 | Any (Python 3) | `compose-helper.py` |
@@ -19,13 +19,13 @@ All four are feature-equivalent.
 
 ### Linux / macOS
 
-1. Copy `compose-helper` into your project directory alongside `docker-compose.yaml`.
-2. Make it executable: `chmod +x compose-helper`
+1. Copy `compose-helper.sh` into your project directory alongside `docker-compose.yaml`.
+2. Make it executable: `chmod +x compose-helper.sh`
 3. Optionally copy `compose-helper.env.example` to `compose-helper.env` and adjust values.
 
 ```
 my-project/
-├── compose-helper          # this script
+├── compose-helper.sh       # this script
 ├── compose-helper.env      # optional — configures the script itself
 ├── docker-compose.yaml
 └── .env                    # optional — passed to docker compose as --env-file

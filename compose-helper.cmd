@@ -1,6 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+rem Github: https://github.com/jpbaking/compose-helper
 rem Author: jpbaking (https://github.com/jpbaking)
 rem
 rem Thin wrapper around docker compose for Windows CMD.
@@ -93,7 +94,10 @@ echo   restart  Stop then start detached (no pull/build)
 echo   stop     Stop with %DCH_STOP_TIMEOUT%s timeout, remove orphans
 echo   down     Stop with %DCH_STOP_TIMEOUT%s timeout, remove orphans and volumes
 echo   logs     Follow logs from last %DCH_LOGS_TAIL% lines
-echo   ^<other^>  Pass arguments directly to docker compose
+echo   ^<other^>  Pass-through to docker compose
+echo.
+echo Note: passing 2 or more arguments always bypasses named commands and routes
+echo directly to docker compose (e.g. 'up --build' skips the 'up' shorthand).
 echo.
 echo Environment (set in %SCRIPT_NAME%.env):
 echo   DCH_PROJECT_NAME  Override project name (default: directory name)
@@ -109,6 +113,7 @@ rem -------------------------------------------------------------------------
 
 if "%~1"=="" goto :usage
 if /i "%~1"=="--help" goto :usage
+if not "%~2"=="" goto :cmd_passthrough
 
 if /i "%~1"=="up"       goto :cmd_up
 if /i "%~1"=="start"    goto :cmd_start

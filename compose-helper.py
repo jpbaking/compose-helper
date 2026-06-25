@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+# Github: https://github.com/jpbaking/compose-helper
 # Author: jpbaking (https://github.com/jpbaking)
 #
 # Thin wrapper around docker compose (cross-platform Python port).
@@ -92,7 +94,10 @@ Commands:
   stop     Stop with {STOP_TIMEOUT}s timeout, remove orphans
   down     Stop with {STOP_TIMEOUT}s timeout, remove orphans and volumes
   logs     Follow logs from last {LOGS_TAIL} lines
-  <other>  Pass arguments directly to docker compose
+  <other>  Pass-through to docker compose
+
+Note: passing 2 or more arguments always bypasses named commands and routes
+directly to docker compose (e.g. 'up --build' skips the 'up' shorthand).
 
 Environment (set in {SCRIPT_NAME}.env):
   DCH_PROJECT_NAME  Override project name (default: directory name)
@@ -106,7 +111,9 @@ Project: {PROJECT_NAME}  Compose: {COMPOSE_FILE}
 cli_args = sys.argv[1:]
 command  = cli_args[0] if cli_args else ""
 
-if command in ("", "--help", "-h"):
+if len(cli_args) > 1:
+    run_dc(*cli_args)
+elif command in ("", "--help"):
     usage()
 elif command == "up":
     run_dc("--profile", "build", "build", "--pull")

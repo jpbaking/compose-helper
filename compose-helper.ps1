@@ -1,3 +1,4 @@
+# Github: https://github.com/jpbaking/compose-helper
 # Author: jpbaking (https://github.com/jpbaking)
 #
 # Thin wrapper around docker compose for PowerShell.
@@ -89,7 +90,10 @@ Commands:
   stop     Stop with ${StopTimeout}s timeout, remove orphans
   down     Stop with ${StopTimeout}s timeout, remove orphans and volumes
   logs     Follow logs from last ${LogsTail} lines
-  <other>  Pass arguments directly to docker compose
+  <other>  Pass-through to docker compose
+
+Note: passing 2 or more arguments always bypasses named commands and routes
+directly to docker compose (e.g. 'up --build' skips the 'up' shorthand).
 
 Environment (set in ${ConfigFile}):
   DCH_PROJECT_NAME  Override project name (default: directory name)
@@ -103,6 +107,11 @@ Project: $ProjectName  Compose: $ComposeFile
 # Parse command from $args (no param block so --help is not misread as a flag).
 $Command   = if ($args.Count -gt 0) { [string]$args[0] } else { "" }
 $Remaining = if ($args.Count -gt 1) { $args[1..($args.Count - 1)] } else { @() }
+
+if ($args.Count -gt 1) {
+    Invoke-DC $Command @Remaining
+    exit
+}
 
 switch ($Command.ToLower()) {
     { $_ -in @("", "--help") } {

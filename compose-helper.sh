@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Github: https://github.com/jpbaking/compose-helper
 # Author: jpbaking (https://github.com/jpbaking)
 #
 # Thin wrapper around docker compose that enforces consistent project naming,
@@ -87,7 +88,10 @@ Commands:
   stop     Stop with ${DCH_STOP_TIMEOUT}s timeout, remove orphans
   down     Stop with ${DCH_STOP_TIMEOUT}s timeout, remove orphans and volumes
   logs     Follow logs from last ${DCH_LOGS_TAIL} lines
-  <other>  Pass arguments directly to docker compose
+  <other>  Pass-through to docker compose
+
+Note: passing 2 or more arguments always bypasses named commands and routes
+directly to docker compose (e.g. 'up --build' skips the 'up' shorthand).
 
 Environment (set in ${SCRIPT_BASE}.env):
   DCH_PROJECT_NAME  Override project name (default: directory name)
@@ -97,6 +101,11 @@ Environment (set in ${SCRIPT_BASE}.env):
 Project: $PROJECT_NAME  Compose: $COMPOSE_FILE
 EOF
 }
+
+if [[ $# -gt 1 ]]; then
+    run_dc "$@"
+    exit
+fi
 
 case "${1:-}" in
     ""|--help)

@@ -77,9 +77,10 @@ usage() {
 Usage: $(basename "$0") <command> [args]
 
 Commands:
-  up       Pull images, rebuild, start detached, then follow logs
-  rebuild  Pull images, rebuild, start detached
-  build    Pull images and rebuild only (no start)
+  up       Rebuild, start detached, then follow logs
+  rebuild  Rebuild, start detached
+  build    Rebuild only (no start)
+  pull     Pull images
   start    Start detached (no pull/build)
   restart  Stop then start detached (no pull/build)
   stop     Stop with ${DCH_STOP_TIMEOUT}s timeout, remove orphans
@@ -101,7 +102,6 @@ case "${1:-}" in
         usage
         ;;
     up)
-        run_dc pull
         # --profile build targets services with a build: block, which by convention
         # are always placed under the "build" profile in docker-compose.yaml.
         # --pull ensures base images are refreshed, not served from the layer cache.
@@ -112,12 +112,13 @@ case "${1:-}" in
     start)
         run_dc up -d
         ;;
-    build)
+    pull)
         run_dc pull
+        ;;
+    build)
         run_dc --profile build build --pull
         ;;
     rebuild)
-        run_dc pull
         run_dc --profile build build --pull
         run_dc up -d
         ;;

@@ -93,11 +93,12 @@ The Python version resolves symlinks via `os.path.realpath`, so it can safely be
 
 | Command   | What it does |
 |-----------|--------------|
-| `up`      | Pull images → rebuild → start detached → follow logs |
-| `rebuild` | Pull images → rebuild → start detached |
-| `build`   | Pull images → rebuild only (no start) |
-| `start`   | Start detached, no pull or build |
-| `restart` | Stop → start detached, no pull or build |
+| `up`      | Rebuild → start detached → follow logs |
+| `rebuild` | Rebuild → start detached |
+| `build`   | Rebuild only (no start) |
+| `pull`    | Pull images |
+| `start`   | Start detached (no pull/build) |
+| `restart` | Stop → start detached (no pull/build) |
 | `stop`    | Stop with timeout, remove orphan containers |
 | `down`    | Stop with timeout, remove orphans and **named volumes** |
 | `logs`    | Follow logs from the last N lines |

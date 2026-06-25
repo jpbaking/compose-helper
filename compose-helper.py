@@ -83,9 +83,10 @@ def usage():
 Usage: {SCRIPT_NAME} <command> [args]
 
 Commands:
-  up       Pull images, rebuild, start detached, then follow logs
-  rebuild  Pull images, rebuild, start detached
-  build    Pull images and rebuild only (no start)
+  up       Rebuild, start detached, then follow logs
+  rebuild  Rebuild, start detached
+  build    Rebuild only (no start)
+  pull     Pull images
   start    Start detached (no pull/build)
   restart  Stop then start detached (no pull/build)
   stop     Stop with {STOP_TIMEOUT}s timeout, remove orphans
@@ -108,17 +109,16 @@ command  = cli_args[0] if cli_args else ""
 if command in ("", "--help", "-h"):
     usage()
 elif command == "up":
-    run_dc("pull")
     run_dc("--profile", "build", "build", "--pull")
     run_dc("up", "-d")
     run_dc("logs", "-f", f"--tail={LOGS_TAIL}")
 elif command == "start":
     run_dc("up", "-d")
-elif command == "build":
+elif command == "pull":
     run_dc("pull")
+elif command == "build":
     run_dc("--profile", "build", "build", "--pull")
 elif command == "rebuild":
-    run_dc("pull")
     run_dc("--profile", "build", "build", "--pull")
     run_dc("up", "-d")
 elif command == "restart":

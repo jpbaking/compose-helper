@@ -80,9 +80,10 @@ function Show-Usage {
 Usage: $ScriptName <command> [args]
 
 Commands:
-  up       Pull images, rebuild, start detached, then follow logs
-  rebuild  Pull images, rebuild, start detached
-  build    Pull images and rebuild only (no start)
+  up       Rebuild, start detached, then follow logs
+  rebuild  Rebuild, start detached
+  build    Rebuild only (no start)
+  pull     Pull images
   start    Start detached (no pull/build)
   restart  Stop then start detached (no pull/build)
   stop     Stop with ${StopTimeout}s timeout, remove orphans
@@ -108,7 +109,6 @@ switch ($Command.ToLower()) {
         Show-Usage
     }
     "up" {
-        Invoke-DC pull
         Invoke-DC --profile build build --pull
         Invoke-DC up -d
         Invoke-DC logs -f "--tail=$LogsTail"
@@ -116,12 +116,13 @@ switch ($Command.ToLower()) {
     "start" {
         Invoke-DC up -d
     }
-    "build" {
+    "pull" {
         Invoke-DC pull
+    }
+    "build" {
         Invoke-DC --profile build build --pull
     }
     "rebuild" {
-        Invoke-DC pull
         Invoke-DC --profile build build --pull
         Invoke-DC up -d
     }

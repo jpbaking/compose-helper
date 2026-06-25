@@ -84,9 +84,10 @@ exit /b %errorlevel%
 echo Usage: %SCRIPT_NAME% ^<command^> [args]
 echo.
 echo Commands:
-echo   up       Pull images, rebuild, start detached, then follow logs
-echo   rebuild  Pull images, rebuild, start detached
-echo   build    Pull images and rebuild only (no start)
+echo   up       Rebuild, start detached, then follow logs
+echo   rebuild  Rebuild, start detached
+echo   build    Rebuild only (no start)
+echo   pull     Pull images
 echo   start    Start detached (no pull/build)
 echo   restart  Stop then start detached (no pull/build)
 echo   stop     Stop with %DCH_STOP_TIMEOUT%s timeout, remove orphans
@@ -111,6 +112,7 @@ if /i "%~1"=="--help" goto :usage
 
 if /i "%~1"=="up"       goto :cmd_up
 if /i "%~1"=="start"    goto :cmd_start
+if /i "%~1"=="pull"     goto :cmd_pull
 if /i "%~1"=="build"    goto :cmd_build
 if /i "%~1"=="rebuild"  goto :cmd_rebuild
 if /i "%~1"=="restart"  goto :cmd_restart
@@ -120,7 +122,6 @@ if /i "%~1"=="logs"     goto :cmd_logs
 goto :cmd_passthrough
 
 :cmd_up
-call :run_dc pull
 call :run_dc --profile build build --pull
 call :run_dc up -d
 call :run_dc logs -f --tail=%DCH_LOGS_TAIL%
@@ -130,13 +131,15 @@ goto :eof
 call :run_dc up -d
 goto :eof
 
-:cmd_build
+:cmd_pull
 call :run_dc pull
+goto :eof
+
+:cmd_build
 call :run_dc --profile build build --pull
 goto :eof
 
 :cmd_rebuild
-call :run_dc pull
 call :run_dc --profile build build --pull
 call :run_dc up -d
 goto :eof

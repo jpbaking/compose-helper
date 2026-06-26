@@ -17,47 +17,37 @@ All four are feature-equivalent.
 
 ## Quick install
 
-Run these commands inside your project directory (alongside `docker-compose.yaml`).
+Run from inside your project directory (alongside `docker-compose.yaml`). Each installer downloads the script and sets up `compose-helper.env` from the bundled example — or checks your existing one for new keys if it's already there.
 
-### Linux / macOS (bash)
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.sh -o compose-helper.sh \
-  && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env \
-  && chmod +x compose-helper.sh
-```
-
-<details><summary>wget alternative</summary>
+### Linux / macOS — bash
 
 ```sh
-wget -qO compose-helper.sh https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.sh \
-  && wget -qO compose-helper.env https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example \
-  && chmod +x compose-helper.sh
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install.sh | bash
 ```
 
-</details>
+### Linux / macOS — Python
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install-py.sh | bash
+```
 
 ### Windows CMD
 
 ```cmd
-curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.cmd -o compose-helper.cmd && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install.cmd -o "%TEMP%\dch-install.cmd" && "%TEMP%\dch-install.cmd"
 ```
 
-### Windows PowerShell
+### Windows PowerShell — ps1
 
 ```powershell
-Invoke-WebRequest https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.ps1 -OutFile compose-helper.ps1; Invoke-WebRequest https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -OutFile compose-helper.env
+irm https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install.ps1 | iex
 ```
 
-### Any platform (Python 3)
+### Windows PowerShell — Python
 
-```sh
-curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.py -o compose-helper.py \
-  && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env \
-  && chmod +x compose-helper.py
+```powershell
+irm https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install-py.ps1 | iex
 ```
-
-Each command downloads the script and a ready-to-edit `compose-helper.env` (from the bundled example). Edit `compose-helper.env` to override defaults — or leave it as-is to use them.
 
 ---
 

@@ -25,11 +25,27 @@ Run from inside your project directory (alongside `docker-compose.yaml`). Each i
 curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install.sh | bash
 ```
 
+<details><summary>wget alternative</summary>
+
+```sh
+wget -qO- https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install.sh | bash
+```
+
+</details>
+
 ### Linux / macOS — Python
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install-py.sh | bash
 ```
+
+<details><summary>wget alternative</summary>
+
+```sh
+wget -qO- https://raw.githubusercontent.com/jpbaking/compose-helper/main/.install-helper/install-py.sh | bash
+```
+
+</details>
 
 ### Windows CMD
 

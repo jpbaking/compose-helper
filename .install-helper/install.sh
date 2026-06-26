@@ -11,8 +11,19 @@ SCRIPT="compose-helper.sh"
 ENV_FILE="compose-helper.env"
 ENV_EXAMPLE_URL="$BASE/compose-helper.env.example"
 
+_download() {
+    if command -v curl &>/dev/null; then
+        curl -fsSL "$1" -o "$2"
+    elif command -v wget &>/dev/null; then
+        wget -qO "$2" "$1"
+    else
+        echo "Error: neither curl nor wget found" >&2
+        exit 1
+    fi
+}
+
 echo "==> Downloading $SCRIPT..."
-curl -fsSL "$BASE/$SCRIPT" -o "$SCRIPT"
+_download "$BASE/$SCRIPT" "$SCRIPT"
 chmod +x "$SCRIPT"
 echo "    OK"
 
@@ -20,7 +31,7 @@ tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
 
 echo "==> Checking $ENV_FILE..."
-curl -fsSL "$ENV_EXAMPLE_URL" -o "$tmp"
+_download "$ENV_EXAMPLE_URL" "$tmp"
 
 if [[ ! -f "$ENV_FILE" ]]; then
     cp "$tmp" "$ENV_FILE"

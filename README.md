@@ -15,6 +15,52 @@ All four are feature-equivalent.
 > ---
 > Do not use in production or CI/CD pipelines without careful review — `down` removes volumes, env files are sourced and exported into the process, and there is no access control or dry-run mode.
 
+## Quick install
+
+Run these commands inside your project directory (alongside `docker-compose.yaml`).
+
+### Linux / macOS (bash)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.sh -o compose-helper.sh \
+  && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env \
+  && chmod +x compose-helper.sh
+```
+
+<details><summary>wget alternative</summary>
+
+```sh
+wget -qO compose-helper.sh https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.sh \
+  && wget -qO compose-helper.env https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example \
+  && chmod +x compose-helper.sh
+```
+
+</details>
+
+### Windows CMD
+
+```cmd
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.cmd -o compose-helper.cmd && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env
+```
+
+### Windows PowerShell
+
+```powershell
+Invoke-WebRequest https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.ps1 -OutFile compose-helper.ps1; Invoke-WebRequest https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -OutFile compose-helper.env
+```
+
+### Any platform (Python 3)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.py -o compose-helper.py \
+  && curl -fsSL https://raw.githubusercontent.com/jpbaking/compose-helper/main/compose-helper.env.example -o compose-helper.env \
+  && chmod +x compose-helper.py
+```
+
+Each command downloads the script and a ready-to-edit `compose-helper.env` (from the bundled example). Edit `compose-helper.env` to override defaults — or leave it as-is to use them.
+
+---
+
 ## Setup
 
 ### Linux / macOS
